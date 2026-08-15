@@ -1,0 +1,15 @@
+.idea
+claude.sh
+.claude
+CLAUDE.md
+AGENTS.md
+samples/
+node_modules/
+dist/
+STORE.md
+privkey.pem
+pubkey.txt
+src.crx
+.DS_Store
+.env
+docs/

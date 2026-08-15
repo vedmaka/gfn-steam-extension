@@ -1,0 +1,112 @@
+.gfn-available-label,
+.gfn-link-button {
+	background: #4c6b22 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	box-sizing: border-box !important;
+	color: #beee11 !important;
+	cursor: pointer !important;
+	font-family: "Motiva Sans", Arial, Helvetica, sans-serif !important;
+	font-weight: 500 !important;
+	text-decoration: none !important;
+}
+
+.gfn-available-label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 12px 0;
+	padding: 8px 15px;
+	font-size: 15px;
+	line-height: 16px;
+}
+
+.gfn-link-button {
+	position: absolute !important;
+	/*top: 4px !important;*/
+	/*left: 4px !important;*/
+	z-index: 100 !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	/*width: 28px !important;*/
+	/*height: 28px !important;*/
+	/*font-size: 15px !important;*/
+	/*line-height: 28px !important;*/
+
+	width: auto !important;
+	font-size: 12px !important;
+	padding: 0 5px !important;
+	top: 36px !important;
+	line-height: 22px !important;
+	left: 0 !important;
+	height: auto !important;
+
+	pointer-events: none !important;
+}
+
+.gfn-link-button:after {
+	content: "GeforceNOW";
+}
+
+.FullModalOverlay div[role="list"] .gfn-link-processed img + .gfn-link-button {
+	top: 2px !important;
+	left: 2px !important;
+	line-height: 16px !important;
+	font-size: 12px !important;
+}
+.FullModalOverlay div[role="list"] .gfn-link-processed img + .gfn-link-button:after {
+	content: "G";
+}
+
+.FullModalOverlay .Panel.Focusable div > a.gfn-link-processed img + img + .gfn-link-button {
+	top: 2px !important;
+	left: 2px !important;
+	line-height: 16px !important;
+	font-size: 12px !important;
+}
+
+.FullModalOverlay .Panel.Focusable div > a.gfn-link-processed img + img + .gfn-link-button:after {
+	content: "G";
+}
+
+/*.gfn-link-processed.microtrailer_active .gfn-link-button {*/
+/*	left: 8px !important;*/
+/*	top: 4px !important;*/
+/*	transition: all 0.1s ease-in-out;*/
+/*}*/
+
+/*.gfn-link-processed.microtrailer_active .gfn-link-button:after {*/
+/*	content: "G";*/
+/*}*/
+
+.gfn-available-label:hover,
+.gfn-link-button:hover {
+	background: #5c7e10 !important;
+	color: #d2ff32 !important;
+	text-decoration: none !important;
+}
+
+.gfn-available-label:focus-visible,
+.gfn-link-button:focus-visible {
+	outline: 2px solid #beee11 !important;
+	outline-offset: 2px !important;
+}
+
+.gfn-available-label:visited,
+.gfn-link-button:visited {
+	color: #beee11 !important;
+}
+
+@media (max-width: 768px) {
+	.gfn-available-label {
+		padding: 6px 12px;
+		font-size: 13px;
+		line-height: 26px;
+	}
+}
+
+.game_header_ctn .glance_details a.gfn-link-processed {
+	display: block;
+}

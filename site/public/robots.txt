@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gfn-steam-extension.xyz/sitemap.xml

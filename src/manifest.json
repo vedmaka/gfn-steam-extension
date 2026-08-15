@@ -1,0 +1,36 @@
+{
+	"manifest_version": 3,
+	"name": "GeForce Now Checker for Steam",
+	"version": "1.2.3",
+	"description": "Shows if Steam games are available on GeForce Now with direct links",
+	"permissions": [
+		"activeTab",
+		"storage"
+	],
+	"host_permissions": [
+		"https://store.steampowered.com/*",
+		"https://api-prod.nvidia.com/*"
+	],
+	"content_scripts": [
+		{
+			"matches": ["https://store.steampowered.com/*"],
+			"js": ["content.js"],
+			"css": ["styles.css"],
+			"run_at": "document_end"
+		}
+	],
+	"background": {
+		"service_worker": "background.js",
+		"type": "module"
+	},
+	"action": {
+		"default_popup": "popup.html",
+		"default_title": "GeForce Now Checker"
+	},
+	"web_accessible_resources": [
+		{
+			"resources": ["styles.css"],
+			"matches": ["https://store.steampowered.com/*"]
+		}
+	]
+}

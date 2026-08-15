@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		body {
+			width: 300px;
+			padding: 16px;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		}
+
+		.header {
+			text-align: center;
+			margin-bottom: 16px;
+		}
+
+		.header h1 {
+			margin: 0;
+			font-size: 18px;
+			color: #333;
+		}
+
+		.header p {
+			margin: 8px 0 0 0;
+			color: #666;
+			font-size: 14px;
+		}
+
+		.info {
+			background: #f5f5f5;
+			padding: 12px;
+			border-radius: 6px;
+			font-size: 14px;
+			line-height: 1.4;
+		}
+
+		.status {
+			display: flex;
+			align-items: center;
+			margin: 12px 0;
+			padding: 8px;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+
+		.status.success {
+			background: #e8f5e8;
+			color: #2d5a2d;
+		}
+
+		.status.error {
+			background: #ffe8e8;
+			color: #5a2d2d;
+		}
+
+		.status-icon {
+			margin-right: 8px;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+<div class="header">
+	<h1>🎮 GeForce Now Checker</h1>
+	<p>Checks if Steam games are available on GeForce NOW</p>
+</div>
+
+<div class="info">
+	This extension automatically checks if games on Steam store pages are available on NVIDIA GeForce NOW cloud gaming service.
+</div>
+
+<div id="status" class="status">
+	<span class="status-icon">⚡</span>
+	<span>Extension is active and ready!</span>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
