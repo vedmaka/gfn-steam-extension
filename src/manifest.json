@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "GeForce Now Checker for Steam",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"description": "Shows if Steam games are available on GeForce Now with direct links",
 	"permissions": [
 		"activeTab",
