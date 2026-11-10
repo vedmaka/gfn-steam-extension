@@ -33,12 +33,18 @@ When you change the source, reload the extension and the Steam tab
 - Opens the matching title in GeForce NOW
 - Keeps the catalog in Chrome storage for up to 24 hours, so it does not download it on every page
 - Watches for game links that Steam adds after the page has loaded
+- Shows a green toolbar icon on Steam store pages and a neutral icon elsewhere
+- Shows database cache age and game count in the popup, with a button to clear the cache
 
 ## How it works
 
 The content script finds Steam app IDs on the page and asks the background service worker whether each game is available. The service worker downloads NVIDIA's GraphQL catalog, keeps the Steam entries, and indexes them by app ID
 
 Everything is plain JavaScript, HTML, and CSS. There is no extension build step and no package installation
+
+Open the toolbar popup to see when the database was last downloaded and how many games it contains. Hover over its age for the full date and time
+
+**Clear database cache** removes the saved catalog and the copy in memory. An active download finishes before the cache is cleared. Reload a Steam page to download a fresh catalog. Existing page markers stay until the page reloads
 
 ## Privacy
 
@@ -79,10 +85,16 @@ src/
 └── popup.js
 ```
 
-There is no automated extension test suite. Test changes by loading `src/` as an unpacked extension, visiting a few Steam page types, and checking both supported and unsupported games
+Run worker cache and toolbar tests with `node --test tests/*.test.cjs`. Popup tests run with the website suite: `cd site` then `npm test`. Website checks also include `npm run lint` and `npm run build`
+
+For a browser check, load `src/` as an unpacked extension, visit Steam and non-Steam pages, and check the toolbar icon, cache controls, and both supported and unsupported games
 
 ## Contributing
 
 Issues and focused pull requests are welcome
+
+## Support development
+
+If the extension helps you, you can [support development on Ko-fi](https://ko-fi.com/C6S42AFEM4). The extension is free to use and support is optional.
 
 This is an independent project with no affiliation or endorsement from Valve or NVIDIA. Steam, GeForce NOW, and related marks belong to their respective owners

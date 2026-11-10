@@ -19,6 +19,17 @@ export default function Footer() {
               Privacy Policy
             </a>
           </p>
+          <p className="mt-4 text-base text-slate-400">
+            <a
+              className="underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              href="https://ko-fi.com/C6S42AFEM4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Support on Ko-fi
+            </a>
+            <span className="mt-2 block text-sm">Free to use · Support is optional</span>
+          </p>
         </div>
         <a className="cta h-11 shrink-0 px-5 text-base leading-none" href={STORE_URL} target="_blank" rel="noreferrer">
           Add to Chrome

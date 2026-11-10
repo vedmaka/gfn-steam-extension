@@ -9,6 +9,48 @@ const debugError = (...args) => {
 	if (isDebug) console.error(...args);
 };
 
+// Per-tab icons use the existing Steam host permission, including store listings
+async function updateToolbarIcon(tab) {
+	if (!Number.isInteger(tab.id) || tab.id < 0) return;
+	const active = /^https:\/\/store\.steampowered\.com\//.test(tab.url || '');
+	const state = active ? 'active' : 'idle';
+	try {
+		await Promise.all([
+			chrome.action.setIcon({
+				tabId: tab.id,
+				path: {
+					16: `images/icon-${state}-16.png`,
+					32: `images/icon-${state}-32.png`
+				}
+			}),
+			chrome.action.setTitle({
+				tabId: tab.id,
+				title: active ? 'GeForce Now Checker: Active on Steam' : 'GeForce Now Checker: Open a Steam store page'
+			})
+		]);
+	} catch (error) {
+		// A tab can close while Chrome applies the icon
+		debugWarn('GFN Checker: Could not update toolbar icon:', error);
+	}
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+	if (changeInfo.url || changeInfo.status) void updateToolbarIcon({ ...tab, id: tabId });
+});
+
+chrome.tabs.onActivated.addListener(async ({ tabId }) => {
+	try {
+		await updateToolbarIcon(await chrome.tabs.get(tabId));
+	} catch (error) {
+		debugWarn('GFN Checker: Could not read active tab:', error);
+	}
+});
+
+// Restore icons for tabs already open when the worker starts or the extension reloads
+chrome.tabs.query({}).then(tabs => Promise.all(tabs.map(updateToolbarIcon))).catch(error => {
+	debugWarn('GFN Checker: Could not initialize toolbar icons:', error);
+});
+
 class GFNChecker {
 	constructor() {
 		this.gfnGames = [];
@@ -18,6 +60,7 @@ class GFNChecker {
 		this.cacheLoaded = false;
 		this.cacheLoadingPromise = null;
 		this.loadingPromise = null;
+		this.clearingPromise = null;
 		this.apiUrl = 'https://api-prod.nvidia.com/services/gfngames/v1/gameList';
 	}
 
@@ -206,9 +249,38 @@ class GFNChecker {
 		await this.cacheLoadingPromise;
 	}
 
+	async getCacheStatus() {
+		if (this.clearingPromise) await this.clearingPromise;
+		await this.loadCachedGames();
+		return {
+			lastFetch: this.lastFetch,
+			gameCount: this.gfnGames.length,
+			expired: this.gfnGames.length > 0 && (Date.now() - this.lastFetch) > this.cacheTime
+		};
+	}
+
+	async clearCache() {
+		if (!this.clearingPromise) {
+			this.clearingPromise = (async () => {
+				// Finish existing reads/downloads before removing disk and memory copies
+				await Promise.allSettled([this.cacheLoadingPromise, this.loadingPromise]);
+				await chrome.storage.local.remove(['gfnGames', 'lastFetch']);
+				this.gfnGames = [];
+				this.gamesByAppId.clear();
+				this.lastFetch = 0;
+				this.cacheLoaded = true;
+			})().finally(() => {
+				this.clearingPromise = null;
+			});
+		}
+		await this.clearingPromise;
+	}
+
 	async ensureGamesLoaded() {
+		if (this.clearingPromise) await this.clearingPromise;
 		// Load from cache first
 		await this.loadCachedGames();
+		if (this.clearingPromise) await this.clearingPromise;
 
 		// Fetch fresh data if cache is old or empty
 		if (!this.gfnGames.length || (Date.now() - this.lastFetch) > this.cacheTime) {
@@ -318,6 +390,22 @@ const gfnChecker = new GFNChecker();
 
 // Handle messages from content script - FIXED VERSION
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request.action === 'getCacheStatus' || request.action === 'clearCache') {
+		(async () => {
+			try {
+				if (request.action === 'clearCache') {
+					await gfnChecker.clearCache();
+					sendResponse({ success: true });
+				} else {
+					sendResponse(await gfnChecker.getCacheStatus());
+				}
+			} catch (error) {
+				sendResponse({ error: error.message });
+			}
+		})();
+		return true;
+	}
+
 	if (request.action === 'checkGFNAvailability') {
 		// Handle the async operation properly
 		(async () => {

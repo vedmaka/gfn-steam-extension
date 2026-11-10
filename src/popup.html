@@ -57,6 +57,101 @@
 			margin-right: 8px;
 			font-size: 16px;
 		}
+
+		.cache {
+			margin-top: 16px;
+			font-size: 13px;
+			color: #555;
+		}
+
+		.cache h2 {
+			margin: 0 0 8px;
+			font-size: 14px;
+			color: #333;
+		}
+
+		.cache p {
+			margin: 6px 0;
+			line-height: 1.4;
+		}
+
+		.cache button {
+			margin-top: 6px;
+			min-height: 34px;
+			padding: 0 12px;
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			background: #fff;
+			color: #333;
+			font: inherit;
+			cursor: pointer;
+		}
+
+		.cache button:hover:enabled {
+			background: #f5f5f5;
+		}
+
+		.cache button:focus-visible {
+			outline: 2px solid #555;
+			outline-offset: 3px;
+		}
+
+		.cache button:disabled {
+			color: #777;
+			border-color: #ddd;
+			cursor: default;
+		}
+
+		#cache-feedback:empty {
+			display: none;
+		}
+
+		.support {
+			margin-top: 20px;
+			padding-top: 16px;
+			border-top: 1px solid #ddd;
+			text-align: center;
+			font-size: 13px;
+			color: #555;
+		}
+
+		.support p {
+			margin: 0 0 10px;
+		}
+
+		.support a {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			min-height: 36px;
+			padding: 0 14px;
+			border: 1px solid #f97316;
+			border-radius: 4px;
+			background: #fb923c;
+			color: #431407;
+			font-weight: 600;
+			text-decoration: none;
+		}
+
+		.support a:hover {
+			background: #f97316;
+		}
+
+		.support img {
+			width: 24px;
+			height: auto;
+		}
+
+		.support a:focus-visible {
+			outline: 2px solid #9a3412;
+			outline-offset: 3px;
+		}
+
+		.support small {
+			display: block;
+			margin-top: 10px;
+			font-size: 12px;
+		}
 	</style>
 </head>
 <body>
@@ -73,6 +168,21 @@
 	<span class="status-icon">⚡</span>
 	<span>Extension is active and ready!</span>
 </div>
+
+<section class="cache" aria-labelledby="cache-heading">
+	<h2 id="cache-heading">Database cache</h2>
+	<p id="cache-age">Loading cache information…</p>
+	<p id="cache-details"></p>
+	<p>Refreshes after 24 hours on the next game check</p>
+	<button id="clear-cache" type="button" disabled>Clear database cache</button>
+	<p id="cache-feedback" role="status" aria-live="polite"></p>
+</section>
+
+<footer class="support">
+	<p>Enjoy the extension? Help support development</p>
+	<a href="https://ko-fi.com/C6S42AFEM4" target="_blank" rel="noopener noreferrer"><img src="images/kofi-cup.png" alt="" width="24" height="16">Support on Ko-fi</a>
+	<small>Free to use · Support is optional</small>
+</footer>
 
 <script src="popup.js"></script>
 </body>
